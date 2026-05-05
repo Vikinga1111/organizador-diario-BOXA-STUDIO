@@ -1,10 +1,10 @@
 const CACHE = 'boxa-horario-v2';
 const ASSETS = [
-  './',
-  './index.html',
-  './manifest.json',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
+  'https://vikinga1111.github.io/oganizador-diario-BOXA-STUDIO/',
+  'https://vikinga1111.github.io/oganizador-diario-BOXA-STUDIO/index.html',
+  'https://vikinga1111.github.io/oganizador-diario-BOXA-STUDIO/manifest.json',
+  'https://vikinga1111.github.io/oganizador-diario-BOXA-STUDIO/icons/icon-192.png',
+  'https://vikinga1111.github.io/oganizador-diario-BOXA-STUDIO/icons/icon-512.png',
   'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap'
 ];
 
