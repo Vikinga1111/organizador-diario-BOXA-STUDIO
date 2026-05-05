@@ -832,6 +832,17 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.register(window.BASE_URL + 'sw.js').catch(()=>{});
   });
 }
+
+// ── PWA INSTALL PROMPT ────────────────────────────────────────
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+window.addEventListener('appinstalled',()=>{
+  deferredPrompt = null;
+});
 </script>
 </body>
 </html>
