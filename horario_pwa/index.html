@@ -8,8 +8,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="BOXA Horario">
-<link rel="manifest" href="/oganizador-diario-BOXA-STUDIO/manifest.json">
-<link rel="apple-touch-icon" href="/oganizador-diario-BOXA-STUDIO/icons/icon-192.png">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
 <title>Organizador Diario BOXA</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -187,7 +187,7 @@ body{font-family:'Montserrat',sans-serif;background:#aaa;padding:20px 16px;displ
 <div id="auth-screen" style="display:none;">
   <div class="auth-box">
     <div class="auth-logo">
-      <img src="/oganizador-diario-BOXA-STUDIO/icons/logo.png" alt="BOXA Design" style="width:100px;height:100px;object-fit:contain;border-radius:4px;">
+      <img src="./icons/logo.png" alt="BOXA Design" style="width:100px;height:100px;object-fit:contain;border-radius:4px;">
       <em>Organizador Diario</em>
     </div>
     <div class="auth-tabs">
@@ -817,7 +817,7 @@ setTimeout(()=>{
 // ── SERVICE WORKER ───────────────────────────────────────────
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('/oganizador-diario-BOXA-STUDIO/sw.js').catch(()=>{});
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
   });
 }
 </script>
