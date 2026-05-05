@@ -11,8 +11,8 @@ const ASSETS = [
   BASE_URL,
   BASE_URL + 'index.html',
   BASE_URL + 'manifest.json',
-  BASE_URL + 'icons/icon-192.png',
-  BASE_URL + 'icons/icon-512.png',
+  BASE_URL + 'icon-192.png',
+  BASE_URL + 'icon-512.png',
   'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap'
 ];
 
