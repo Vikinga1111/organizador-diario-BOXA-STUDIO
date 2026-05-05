@@ -2,6 +2,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <script>
+    // Detect base URL for GitHub Pages subdirectory support
+    (function(){
+      const path = window.location.pathname;
+      const match = path.match(/^(\/[^\/]+\/)/);
+      window.BASE_URL = match ? match[1] : '/';
+    })();
+    </script>
     <base href="/organizador-diario-BOXA-STUDIO/">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -143,6 +151,7 @@ body{font-family:'Montserrat',sans-serif;background:#aaa;padding:20px 16px;displ
 #auth-screen{display:none;align-items:center;justify-content:center;min-height:100vh;width:100%;padding:20px;background:#aaa;}
 .auth-box{background:#fff;border-radius:6px;padding:36px 28px 28px;width:100%;max-width:360px;box-shadow:0 8px 40px rgba(0,0,0,.22);display:flex;flex-direction:column;gap:14px;}
 .auth-logo{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.auth-logo img{width:60px;height:60px;object-fit:contain;margin-bottom:4px;}
 .auth-logo em{font-style:normal;font-family:'Montserrat',sans-serif;font-weight:300;font-size:10px;display:block;letter-spacing:0.22em;color:#999;text-transform:uppercase;}
 .auth-tabs{display:flex;border-bottom:1.5px solid #e0e0e0;}
 .auth-tab{flex:1;text-align:center;padding:10px 0;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#bbb;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1.5px;transition:color .15s,border-color .15s;}
@@ -189,8 +198,10 @@ body{font-family:'Montserrat',sans-serif;background:#aaa;padding:20px 16px;displ
 <div id="auth-screen" style="display:none;">
   <div class="auth-box">
     <div class="auth-logo">
-h      <em>Organizador Diario</em>
+      <img id="logo-img" src="" alt="BOXA Logo">
+      <em>Organizador Diario</em>
     </div>
+    <script>document.getElementById('logo-img').src = window.BASE_URL + 'icons/icon-192.png';</script>
     <div class="auth-tabs">
       <div class="auth-tab on" id="tab-login" onclick="switchTab('login')">Ingresar</div>
       <div class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Registrarse</div>
@@ -818,7 +829,7 @@ setTimeout(()=>{
 // ── SERVICE WORKER ───────────────────────────────────────────
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('/sw.js').catch(()=>{});
+    navigator.serviceWorker.register(window.BASE_URL + 'sw.js').catch(()=>{});
   });
 }
 </script>
