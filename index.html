@@ -879,8 +879,13 @@ if(localStorage.getItem('reading_mode')==='1'){
 let deferredPrompt;
 let installPromptFired=false;
 
+console.log('[PWA] Checking PWA support...');
+console.log('[PWA] BASE_URL:', window.BASE_URL);
+console.log('[PWA] beforeinstallprompt supported:', 'onbeforeinstallprompt' in window);
+console.log('[PWA] Service Worker supported:', 'serviceWorker' in navigator);
+
 window.addEventListener('beforeinstallprompt',(e)=>{
-  console.log('[PWA] beforeinstallprompt fired');
+  console.log('[PWA] ✓ beforeinstallprompt fired!');
   e.preventDefault();
   deferredPrompt = e;
   installPromptFired=true;
@@ -888,59 +893,51 @@ window.addEventListener('beforeinstallprompt',(e)=>{
 });
 
 window.addEventListener('appinstalled',()=>{
-  console.log('[PWA] app installed');
+  console.log('[PWA] ✓ app installed');
   deferredPrompt = null;
   hideInstallNotification();
 });
 
-// Show fallback notification on mobile if beforeinstallprompt doesn't fire after 3 seconds
+// Show fallback notification on mobile if beforeinstallprompt doesn't fire after 2 seconds
 setTimeout(()=>{
   if(!installPromptFired && window.innerWidth<=640){
-    console.log('[PWA] beforeinstallprompt did not fire, showing fallback');
-    showInstallInstructions();
+    console.log('[PWA] ⚠ beforeinstallprompt did not fire after 2s, showing fallback');
+    showInstallNotification();
   }
-},3000);
+},2000);
 
 function showInstallNotification(){
   const notif=document.getElementById('install-notification');
-  if(notif && deferredPrompt){
+  if(notif){
     const icon=document.getElementById('install-icon');
     icon.src=window.BASE_URL+'icon-192.png';
     notif.style.display='flex';
-    console.log('[PWA] Install notification shown');
+    console.log('[PWA] ✓ Install notification displayed');
   }
 }
 
 function hideInstallNotification(){
   const notif=document.getElementById('install-notification');
   if(notif) notif.style.display='none';
-  console.log('[PWA] Install notification hidden');
+  console.log('[PWA] ✓ Install notification hidden');
 }
 
 async function installApp(){
-  if(!deferredPrompt) return;
-  console.log('[PWA] Install button clicked, showing prompt');
-  deferredPrompt.prompt();
-  const{outcome}=await deferredPrompt.userChoice;
-  console.log('[PWA] User choice:',outcome);
-  deferredPrompt=null;
+  if(deferredPrompt){
+    console.log('[PWA] Install button clicked, showing prompt');
+    deferredPrompt.prompt();
+    const{outcome}=await deferredPrompt.userChoice;
+    console.log('[PWA] User choice:',outcome);
+    deferredPrompt=null;
+  } else {
+    console.log('[PWA] No deferredPrompt available');
+  }
   hideInstallNotification();
 }
 
 function dismissInstall(){
   console.log('[PWA] Install dismissed');
-  deferredPrompt=null;
   hideInstallNotification();
-}
-
-function showInstallInstructions(){
-  // Show the notification anyway with manual instructions for iOS/other browsers
-  const notif=document.getElementById('install-notification');
-  if(notif){
-    const icon=document.getElementById('install-icon');
-    icon.src=window.BASE_URL+'icon-192.png';
-    notif.style.display='flex';
-  }
 }
 </script>
 </body>
