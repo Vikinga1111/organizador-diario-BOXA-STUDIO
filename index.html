@@ -221,6 +221,21 @@ body{font-family:'Montserrat',sans-serif;background:#aaa;padding:20px 16px;displ
   </div>
 </div>
 
+<!-- INSTALL NOTIFICATION -->
+<div id="install-notification" style="display:none;position:fixed;bottom:16px;left:16px;right:16px;max-width:360px;background:#1a1a1a;color:#fff;padding:16px;border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,.4);z-index:9999;font-family:'Montserrat',sans-serif;display:flex;flex-direction:column;gap:12px;margin:0 auto;">
+  <div style="display:flex;gap:12px;align-items:center;">
+    <img src="" alt="Icon" style="width:48px;height:48px;border-radius:8px;flex-shrink:0;" id="install-icon">
+    <div style="flex:1;">
+      <div style="font-weight:700;font-size:13px;">Instala la app</div>
+      <div style="font-size:11px;color:#aaa;">Acceso rápido desde tu inicio</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;">
+    <button type="button" onclick="dismissInstall()" style="background:transparent;color:#aaa;border:1px solid #555;padding:8px 14px;border-radius:2px;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;">No</button>
+    <button type="button" onclick="installApp()" style="background:#3a6b4a;color:#fff;border:none;padding:8px 14px;border-radius:2px;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;">Instalar</button>
+  </div>
+</div>
+
 <!-- APP -->
 <div id="app">
   <div id="user-bar">
@@ -838,11 +853,40 @@ let deferredPrompt;
 window.addEventListener('beforeinstallprompt',(e)=>{
   e.preventDefault();
   deferredPrompt = e;
+  showInstallNotification();
 });
 
 window.addEventListener('appinstalled',()=>{
   deferredPrompt = null;
+  hideInstallNotification();
 });
+
+function showInstallNotification(){
+  const notif=document.getElementById('install-notification');
+  if(notif && deferredPrompt){
+    const icon=document.getElementById('install-icon');
+    icon.src=window.BASE_URL+'icon-192.png';
+    notif.style.display='flex';
+  }
+}
+
+function hideInstallNotification(){
+  const notif=document.getElementById('install-notification');
+  if(notif) notif.style.display='none';
+}
+
+async function installApp(){
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const{outcome}=await deferredPrompt.userChoice;
+  deferredPrompt=null;
+  hideInstallNotification();
+}
+
+function dismissInstall(){
+  deferredPrompt=null;
+  hideInstallNotification();
+}
 </script>
 </body>
 </html>
