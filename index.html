@@ -236,6 +236,23 @@ body{font-family:'Montserrat',sans-serif;background:#aaa;padding:20px 16px;displ
   </div>
 </div>
 
+<!-- READING MODE TOGGLE (Mobile) -->
+<style>
+#reading-mode-toggle{display:none;}
+body.reading-mode{background:#1a1a1a;}
+body.reading-mode .page{background:#2a2a2a;}
+body.reading-mode .page{color:#fff;}
+body.reading-mode .slabel{color:#aaa;background:transparent;}
+body.reading-mode input[type=text]{color:#ddd;background:transparent;}
+body.reading-mode input[type=text]::placeholder{color:#666;}
+body.reading-mode .tinp{color:#ddd;}
+body.reading-mode .ttag{color:#999;}
+@media(max-width:640px){
+  #reading-mode-toggle{display:block;position:fixed;top:8px;right:8px;z-index:1000;background:#333;color:#fff;border:none;width:40px;height:40px;border-radius:4px;cursor:pointer;font-weight:700;font-family:'Montserrat',sans-serif;font-size:16px;}
+}
+</style>
+<button id="reading-mode-toggle" type="button" onclick="toggleReadingMode()" title="Modo lectura">🌙</button>
+
 <!-- APP -->
 <div id="app">
   <div id="user-bar">
@@ -848,18 +865,41 @@ if('serviceWorker' in navigator){
   });
 }
 
+// ── READING MODE ────────────────────────────────────────────────
+function toggleReadingMode(){
+  const isReading=document.body.classList.toggle('reading-mode');
+  localStorage.setItem('reading_mode',isReading?'1':'0');
+}
+// Restore reading mode preference
+if(localStorage.getItem('reading_mode')==='1'){
+  document.body.classList.add('reading-mode');
+}
+
 // ── PWA INSTALL PROMPT ────────────────────────────────────────
 let deferredPrompt;
+let installPromptFired=false;
+
 window.addEventListener('beforeinstallprompt',(e)=>{
+  console.log('[PWA] beforeinstallprompt fired');
   e.preventDefault();
   deferredPrompt = e;
+  installPromptFired=true;
   showInstallNotification();
 });
 
 window.addEventListener('appinstalled',()=>{
+  console.log('[PWA] app installed');
   deferredPrompt = null;
   hideInstallNotification();
 });
+
+// Show fallback notification on mobile if beforeinstallprompt doesn't fire after 3 seconds
+setTimeout(()=>{
+  if(!installPromptFired && window.innerWidth<=640){
+    console.log('[PWA] beforeinstallprompt did not fire, showing fallback');
+    showInstallInstructions();
+  }
+},3000);
 
 function showInstallNotification(){
   const notif=document.getElementById('install-notification');
@@ -867,25 +907,40 @@ function showInstallNotification(){
     const icon=document.getElementById('install-icon');
     icon.src=window.BASE_URL+'icon-192.png';
     notif.style.display='flex';
+    console.log('[PWA] Install notification shown');
   }
 }
 
 function hideInstallNotification(){
   const notif=document.getElementById('install-notification');
   if(notif) notif.style.display='none';
+  console.log('[PWA] Install notification hidden');
 }
 
 async function installApp(){
   if(!deferredPrompt) return;
+  console.log('[PWA] Install button clicked, showing prompt');
   deferredPrompt.prompt();
   const{outcome}=await deferredPrompt.userChoice;
+  console.log('[PWA] User choice:',outcome);
   deferredPrompt=null;
   hideInstallNotification();
 }
 
 function dismissInstall(){
+  console.log('[PWA] Install dismissed');
   deferredPrompt=null;
   hideInstallNotification();
+}
+
+function showInstallInstructions(){
+  // Show the notification anyway with manual instructions for iOS/other browsers
+  const notif=document.getElementById('install-notification');
+  if(notif){
+    const icon=document.getElementById('install-icon');
+    icon.src=window.BASE_URL+'icon-192.png';
+    notif.style.display='flex';
+  }
 }
 </script>
 </body>
