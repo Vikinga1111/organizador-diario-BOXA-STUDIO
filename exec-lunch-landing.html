@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Reserve your executive lunch at one of three Michelin-recognized Miami venues. Premium, health-conscious dining timed to your agenda.">
+  <title>Secure Your Executive Lunch — Miami</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tabler Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+
+  <style>
+    /* ── Design tokens ─────────────────────────────────────── */
+    :root {
+      --color-background-primary:   #ffffff;
+      --color-background-secondary: #f4f6fb;
+      --color-border-tertiary:      #dde3ed;
+      --color-text-primary:         #1a1e2e;
+      --color-text-secondary:       #5a6478;
+      --border-radius-lg:           12px;
+      --border-radius-md:           8px;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --accent:     #405ebf;
+      --accent-bg:  #e8edf9;
+    }
+
+    /* ── Reset & base ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-background-secondary);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem 4rem;
+      color: var(--color-text-primary);
+    }
+
+    /* ── Card shell ────────────────────────────────────────── */
+    .card {
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-lg);
+      width: 100%;
+      max-width: 780px;
+      overflow: hidden;
+      box-shadow: 0 4px 32px rgba(64, 94, 191, .08), 0 1px 4px rgba(0,0,0,.06);
+    }
+
+    /* ── Component styles (from original snippet) ─────────── */
+    .venue-card {
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-lg);
+      padding: 1.25rem;
+    }
+
+    .best-badge {
+      display: inline-block;
+      background: var(--accent-bg);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      letter-spacing: 0.03em;
+    }
+
+    .strip-item {
+      padding: 1.5rem 1rem;
+      border-right: 0.5px solid var(--color-border-tertiary);
+      text-align: center;
+    }
+    .strip-item:last-child { border-right: none; }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 12px;
+      padding: 5px 0;
+      border-bottom: 0.5px solid var(--color-border-tertiary);
+    }
+    .detail-row:last-child { border-bottom: none; }
+
+    .diet-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      padding: 5px 0;
+      cursor: pointer;
+    }
+    .diet-label input { accent-color: var(--accent); flex-shrink: 0; }
+
+    .cap-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: #8b9fb2;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .btn-p {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 12px 28px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      border-radius: var(--border-radius-md);
+      transition: background 0.15s, box-shadow 0.15s;
+      line-height: 1;
+    }
+    .btn-p:hover { background: #3451a8; box-shadow: 0 4px 16px rgba(64,94,191,.3); }
+    .btn-p:disabled { background: #9aaee0; cursor: not-allowed; box-shadow: none; }
+
+    .testimonial {
+      background: var(--color-background-secondary);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+      padding: 1rem 1.25rem;
+    }
+
+    /* ── Form inputs ────────────────────────────────────────── */
+    input[type="text"],
+    input[type="datetime-local"],
+    select,
+    textarea {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--color-text-primary);
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-md);
+      padding: 10px 12px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    input[type="text"]:focus,
+    input[type="datetime-local"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(64, 94, 191, .12);
+    }
+    input::placeholder, textarea::placeholder { color: #b0bcc8; }
+
+    /* ── Back button ────────────────────────────────────────── */
+    .btn-back {
+      background: none;
+      border: none;
+      font-size: 13px;
+      color: #8b9fb2;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 0 1.75rem;
+      font-family: var(--font-sans);
+    }
+    .btn-back:hover { color: var(--accent); }
+
+    /* ── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      body { padding: 0 0 3rem; }
+      .card { border-radius: 0; border-left: none; border-right: none; max-width: 100%; }
+      .strip-item { padding: 1rem 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+<!-- ══════════════════════════════════════════════════════════
+     LANDING SCREEN
+══════════════════════════════════════════════════════════ -->
+<div id="landing">
+  <div style="height:4px;background:var(--accent);"></div>
+
+  <div style="padding:3rem 2rem 2.5rem;text-align:center;border-bottom:0.5px solid var(--color-border-tertiary);">
+    <p style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#8b9fb2;margin:0 0 0.75rem;">Solutions for Productive Business Meetings</p>
+    <h1 style="font-size:28px;font-weight:500;font-family:var(--font-serif);color:var(--accent);margin:0 0 1.25rem;line-height:1.3;">Secure Your Executive Lunch</h1>
+    <div style="width:36px;height:3px;background:var(--accent);margin:0 auto 1.5rem;border-radius:2px;"></div>
+    <p style="font-size:14px;color:var(--color-text-secondary);max-width:480px;margin:0 auto 2rem;line-height:1.75;">Premium, health-conscious dining for senior business leaders. Three Michelin-recognized Miami venues — full-service, timed to your agenda, dietary needs covered.</p>
+    <button class="btn-p" onclick="showForm()">Reserve Your Seat &nbsp;<i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+  </div>
+
+  <!-- Stats strip -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);border-bottom:0.5px solid var(--color-border-tertiary);">
+    <div class="strip-item">
+      <p style="font-size:20px;font-weight:500;color:var(--accent);margin:0 0 4px;">$35–$60</p>
+      <p style="font-size:12px;color:#8b9fb2;margin:0;">per person, pre-drinks</p>
+    </div>
+    <div class="strip-item">
+      <p style="font-size:20px;font-weight:500;color:var(--accent);margin:0 0 4px;">3 venues</p>
+      <p style="font-size:12px;color:#8b9fb2;margin:0;">Michelin-recognized, Miami</p>
+    </div>
+    <div class="strip-item">
+      <p style="font-size:20px;font-weight:500;color:var(--accent);margin:0 0 4px;">45–60 min</p>
+      <p style="font-size:12px;color:#8b9fb2;margin:0;">calibrated service window</p>
+    </div>
+  </div>
+
+  <!-- Venue cards -->
+  <div style="padding:2rem;">
+    <p class="cap-label" style="margin-bottom:1rem;">Three Premier Venues — All Mediterranean · All Full-Service</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px;">
+
+      <div class="venue-card">
+        <span class="best-badge"><i class="ti ti-clock" style="font-size:11px;vertical-align:-1px;" aria-hidden="true"></i> Tightest time control</span>
+        <p style="font-size:14px;font-weight:500;color:var(--color-text-primary);margin:0 0 2px;">LPM Restaurant &amp; Bar</p>
+        <p style="font-size:11px;color:#8b9fb2;margin:0 0 10px;"><i class="ti ti-map-pin" style="font-size:11px;" aria-hidden="true"></i> Brickell · 1300 Brickell Bay Dr</p>
+        <div class="detail-row"><span style="color:#8b9fb2;">Menu</span><span style="color:var(--color-text-primary);text-align:right;">French-Mediterranean</span></div>
+        <div class="detail-row"><span style="color:#8b9fb2;">Power move</span><span style="color:var(--accent);text-align:right;">$35 Business Lunch (Mon–Fri)</span></div>
+        <div class="detail-row"><span style="color:#8b9fb2;">Rating</span><span>⭐ 4.5 · 1,258+ reviews</span></div>
+        <div class="detail-row"><span style="color:#8b9fb2;">Hours</span><span>Mon–Fri 12–3 pm</span></div>
+      </div>
+
+      <div class="venue-card">
+        <span class="best-badge"><i class="ti ti-adjustments-horizontal" style="font-size:11px;vertical-align:-1px;" aria-hidden="true"></i> Schedule flexibility</span>
+        <p style="font-size:14px;font-weight:500;color:var(--color-text-primary);margin:0 0 2px;">DOYA</p>
+        <p style="font-size:11px;color:#8b9fb2;margin:0 0 10px;"><i class="ti ti-map-pin" style="font-size:11px;" aria-hidden="true"></i> Wynwood · 347 NW 24th Street</p>
+        <div class="detail-row"><span style="color:#8b9fb2;">Menu</span><span style="color:var(--color-text-primary);text-align:right;">Modern Aegean meze</span></div>
+        <div class="detail-row"><span style="color:#8b9fb2;">Power move</span><span style="color:var(--accent);text-align:right;">40-min fast table turn</span></div>
+        <div class="detail-row"><span style="color:#8b9fb2;">Rating</span><span>⭐ 4.8 · 3,186+ reviews</span></div>
+        <div class="detail-row"><span style="color:#8b9fb2;">Hours</span><span>Daily from 12 pm</span></div>
+      </div>
+
+      <div class="venue-card">
+        <span class="best-badge"><i class="ti ti-door" style="font-size:11px;vertical-align:-1px;" aria-hidden="true"></i> Private room available</span>
+        <p style="font-size:14px;font-weight:500;color:var(--color-text-primary);margin:0 0 2px;">Mandolin Aegean Bistro</p>
+        <p style="font-size:11px;color:#8b9fb2;margin:0 0 10px;"><i class="ti ti-map-pin" style="font-size:11px;" aria-hidden="true"></i> Design District · 4312 NE 2nd Ave</p>
+        <div class="detail-row"><span style="color:#8b9fb2;">Menu</span><span style="color:var(--color-text-primary);text-align:right;">Greek-inspired coastal</span></div>
+        <div class="detail-row"><span style="color:#8b9fb2;">Power move</span><span style="color:var(--accent);text-align:right;">Backhouse room (10–26 seats)</span></div>
+        <div class="detail-row"><span style="color:#8b9fb2;">Rating</span><span>⭐ 4.5 · 4,471+ reviews</span></div>
+        <div class="detail-row"><span style="color:#8b9fb2;">Hours</span><span>Daily 12–11 pm</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <div style="padding:0 2rem 2rem;">
+    <p class="cap-label" style="margin-bottom:1rem;">What executive guests say</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
+      <div class="testimonial">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px;line-height:1.65;font-style:italic;">"Service was, perhaps, the best I have ever experienced — perfectly attentive but not hovering. Food courses were timed perfectly."</p>
+        <p style="font-size:11px;color:#8b9fb2;margin:0;">— LPM Restaurant Diner, Tripadvisor</p>
+      </div>
+      <div class="testimonial">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px;line-height:1.65;font-style:italic;">"Outstanding and super fast. We visited with a group from work — attentive staff who ensured we had everything we needed."</p>
+        <p style="font-size:11px;color:#8b9fb2;margin:0;">— DOYA Corporate Lunch Guest, Google Reviews</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer CTA -->
+  <div style="padding:1.5rem 2rem 2.5rem;border-top:0.5px solid var(--color-border-tertiary);text-align:center;">
+    <p style="font-size:12px;color:#8b9fb2;margin:0 0 0.35rem;">All-inclusive · Gratuity covered · Dietary accommodations included with 48h notice.</p>
+    <p style="font-size:12px;color:#8b9fb2;margin:0 0 1.25rem;">Limited availability — seats confirmed upon submission only.</p>
+    <button class="btn-p" onclick="showForm()">Reserve Your Seat &nbsp;<i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     FORM SCREEN
+══════════════════════════════════════════════════════════ -->
+<div id="form-screen" style="display:none;padding:2rem;">
+  <button class="btn-back" onclick="showLanding()">
+    <i class="ti ti-arrow-left" aria-hidden="true"></i> Back
+  </button>
+
+  <div style="width:36px;height:3px;background:var(--accent);margin-bottom:1.25rem;border-radius:2px;"></div>
+  <p class="cap-label" style="margin-bottom:0.4rem;">RSVP</p>
+  <h2 style="font-size:22px;font-weight:500;font-family:var(--font-serif);color:var(--accent);margin:0 0 2rem;">Reserve Your Seat</h2>
+
+  <div id="rsvp-form">
+    <div style="margin-bottom:1.25rem;">
+      <label for="f-name" class="cap-label">Full name</label>
+      <input id="f-name" type="text" placeholder="Your full name" style="width:100%;">
+    </div>
+
+    <div style="margin-bottom:1.25rem;">
+      <label for="f-venue" class="cap-label">Preferred venue</label>
+      <select id="f-venue" style="width:100%;">
+        <option value="">Select a venue</option>
+        <option>LPM Restaurant &amp; Bar — Brickell</option>
+        <option>DOYA — Wynwood</option>
+        <option>Mandolin Aegean Bistro — Design District</option>
+      </select>
+    </div>
+
+    <div style="margin-bottom:1.25rem;">
+      <label for="f-dt" class="cap-label">Preferred date &amp; time</label>
+      <input id="f-dt" type="datetime-local" style="width:100%;">
+    </div>
+
+    <div style="margin-bottom:1.25rem;">
+      <p class="cap-label" style="margin-bottom:8px;">Dietary restrictions</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));">
+        <label class="diet-label"><input type="checkbox"> Vegetarian</label>
+        <label class="diet-label"><input type="checkbox"> Vegan</label>
+        <label class="diet-label"><input type="checkbox"> Gluten-Free</label>
+        <label class="diet-label"><input type="checkbox"> Dairy-Free</label>
+        <label class="diet-label"><input type="checkbox"> Pescatarian</label>
+        <label class="diet-label"><input type="checkbox"> Halal</label>
+        <label class="diet-label"><input type="checkbox"> Kosher</label>
+        <label class="diet-label"><input type="checkbox"> Ketogenic (Keto)</label>
+        <label class="diet-label"><input type="checkbox"> Food Allergies</label>
+        <label class="diet-label"><input type="checkbox"> Low Sodium</label>
+      </div>
+      <p style="font-size:11px;color:#8b9fb2;margin:8px 0 0;">
+        <i class="ti ti-clock" style="font-size:11px;vertical-align:-1px;" aria-hidden="true"></i>
+        48-hour advance notice required for specialized accommodations.
+      </p>
+    </div>
+
+    <div style="margin-bottom:1.75rem;">
+      <label for="f-notes" class="cap-label">Additional notes</label>
+      <textarea id="f-notes" rows="3" placeholder="Party size, agenda notes, or any special requests…" style="width:100%;resize:vertical;"></textarea>
+    </div>
+
+    <button id="submit-btn" class="btn-p" onclick="submitForm()">
+      Confirm Reservation &nbsp;<i class="ti ti-check" aria-hidden="true"></i>
+    </button>
+    <p id="form-error" style="display:none;font-size:12px;color:#c0392b;margin:10px 0 0;">
+      <i class="ti ti-alert-circle" style="font-size:12px;vertical-align:-1px;" aria-hidden="true"></i>
+      Something went wrong — please try again or contact us directly.
+    </p>
+  </div>
+
+  <!-- Success state -->
+  <div id="success" style="display:none;text-align:center;padding:3rem 1rem;">
+    <i class="ti ti-circle-check" style="font-size:44px;color:var(--accent);display:block;margin-bottom:1.25rem;" aria-hidden="true"></i>
+    <h3 style="font-size:20px;font-weight:500;font-family:var(--font-serif);color:var(--accent);margin:0 0 0.75rem;">Reservation received</h3>
+    <p style="font-size:14px;color:var(--color-text-secondary);max-width:360px;margin:0 auto;line-height:1.75;">Thank you for your RSVP. You'll receive a confirmation with final venue details and next steps shortly.</p>
+  </div>
+</div>
+
+</div><!-- /.card -->
+
+<script>
+const VENUE_MAP = {
+  'LPM Restaurant & Bar — Brickell':       'LPM Restaurant & Bar',
+  'DOYA — Wynwood':                         'DOYA',
+  'Mandolin Aegean Bistro — Design District':'Mandolin Aegean Bistro'
+};
+const DIET_MAP = {
+  'Vegetarian':       'Vegetarian',
+  'Vegan':            'Vegan',
+  'Gluten-Free':      'Gluten-Free',
+  'Dairy-Free':       'Dairy-Free / Lactose Intolerant',
+  'Pescatarian':      'Pescatarian',
+  'Halal':            'Halal',
+  'Kosher':           'Kosher',
+  'Ketogenic (Keto)': 'Ketogenic (Keto)',
+  'Food Allergies':   'Food Allergies',
+  'Low Sodium':       'Low Sodium/Salt'
+};
+
+function showForm() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('form-screen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function showLanding() {
+  document.getElementById('form-screen').style.display = 'none';
+  document.getElementById('landing').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function submitForm() {
+  const name     = document.getElementById('f-name').value.trim();
+  const venueRaw = document.getElementById('f-venue').value;
+  const dt       = document.getElementById('f-dt').value;
+  const notes    = document.getElementById('f-notes').value.trim();
+
+  if (!name || !venueRaw) {
+    alert('Please enter your name and select a venue to continue.');
+    return;
+  }
+
+  const venue   = VENUE_MAP[venueRaw] || venueRaw;
+  const dietary = [];
+  document.querySelectorAll('.diet-label input:checked').forEach(cb => {
+    const lbl = cb.parentElement.textContent.trim();
+    dietary.push(DIET_MAP[lbl] || lbl);
+  });
+
+  const btn   = document.getElementById('submit-btn');
+  const errEl = document.getElementById('form-error');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+  errEl.style.display = 'none';
+
+  const titleVal = name + (notes ? ' — ' + notes : '');
+  const dtProp   = dt
+    ? `\n- "date:Date & Time:start": "${dt}"\n- "date:Date & Time:is_datetime": 1`
+    : '';
+
+  const prompt = `Use notion-create-pages immediately. Parent data_source_id: "35b1cc45-5b4c-8026-8363-000b422c9611". Set these properties exactly:
+- "Your Notes" (title): "${titleVal}"
+- "Confirm preferred venue": "${venue}"${dtProp}
+- "Note any dietary restrictions": ${JSON.stringify(dietary)}
+Respond only with "done" after creating the page.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model:       'claude-sonnet-4-20250514',
+        max_tokens:  500,
+        messages:    [{ role: 'user', content: prompt }],
+        mcp_servers: [{ type: 'url', url: 'https://mcp.notion.com/mcp', name: 'notion' }]
+      })
+    });
+    if (!res.ok) throw new Error(res.status);
+    document.getElementById('rsvp-form').style.display = 'none';
+    document.getElementById('success').style.display   = 'block';
+  } catch (e) {
+    btn.disabled = false;
+    btn.innerHTML = 'Confirm Reservation &nbsp;<i class="ti ti-check" aria-hidden="true"></i>';
+    errEl.style.display = 'block';
+  }
+}
+</script>
+</body>
+</html>
